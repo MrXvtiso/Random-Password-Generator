@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Password</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to bottom, hsl(208, 100%, 15%), hsl(208, 100%, 5%))
+    }
+
+    .container {
+        margin-left: 8rem;
+    }
+
+    .title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .title:nth-child(1) {
+        color: white;
+    }
+
+    .title:nth-child(2) {
+        color: hsl(120, 72%, 29%);
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        margin-bottom: 30px;
+    }
+
+    #password {
+        font-size: 1rem;
+        outline: none;
+        padding-block: 18px;
+        padding-inline: 15px;
+        border: none;
+        border-radius: 5px;
+        width: 400px;
+    }
+
+    #generatePassword {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        background-color: hsl(120, 72%, 29%);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 15px 20px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    #generatePassword:hover {
+        background-color: hsl(120, 72%, 24%);
+    }
+
+    #generatePassword:active {
+        background-color: hsl(120, 72%, 22%);
+        transition: 0.1s ease;
+    }
+
+    .fa-bolt {
+        font-size: 1.1rem;
+    }
+
+    .input-box {
+        position: relative;
+    }
+
+    .fa-copy {
+        position: absolute;
+        color: hsl(120, 72%, 29%);
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 4px;
+        transition: 0.3s ease;
+    }
+
+    .fa-copy:hover {
+        background-color: hsl(0, 0%, 80%);
+    }
+
+    .fa-copy:active {
+        background-color: hsl(0, 0%, 70%);
+        transition: 0.1s ease;
+    }
+
+    /* Style to indicate successful copy */
+    .copied {
+        color: hsl(120, 72%, 45%);
+    }
+</style>
+
+<body>
+    <div class="container">
+        <p class="title">Generate a</p>
+        <p class="title">Random Password</p>
+        <div class="input-box">
+            <input type="text" id="password" placeholder="Random Password" readonly>
+            <i class="fa-regular fa-copy" id="copyButton"></i>
+        </div>
+        <button id="generatePassword"><i class="fa-solid fa-bolt"></i> Generate Password</button>
+    </div>
+
+    <script>
+        const generatePassword = document.getElementById("generatePassword")
+        const passwordInput = document.getElementById("password")
+        const copyButton = document.getElementById("copyButton")
+
+        const passwordLength = 12
+        const includeLowercase = true
+        const includeUppercase = true
+        const includeNumbers = true
+        const includeSymbols = false
+
+        generatePassword.onclick = function () {
+            generateRandomChar()
+        }
+
+        copyButton.onclick = function () {
+            copyToClipboard()
+        }
+
+        function generateRandomChar() {
+            let allowedChars = ""
+            let password = ""
+            if (includeLowercase) allowedChars += "abcdefghijklmnopqrstuvwxyz"
+            if (includeUppercase) allowedChars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            if (includeNumbers) allowedChars += "0123456789"
+            if (includeSymbols) allowedChars += "!@#$%^&*()_+=-{}[]|;:,.<>/?"
+
+            for (let i = 0; i < passwordLength; i++) {
+                password += allowedChars[Math.floor(Math.random() * allowedChars.length)]
+            }
+
+            passwordInput.value = password
+        }
+
+        function copyToClipboard() {
+            passwordInput.select()
+            document.execCommand('copy')
+
+            copyButton.classList.add('copied')
+
+            setTimeout(() => {
+                copyButton.classList.remove('copied')
+            }, 1000)
+        }
+    </script>
+</body>
+
+</html>
